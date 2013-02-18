@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phone System</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/index.css' />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <script>
+      var socket = io.connect('http://localhost:3000');
+      socket.on('update_conn_number', function(conn_num){
+        //由Server端emit 'update_conn_number'
+        $('#conn_num').html(conn_num);
+      });
+      $(document).ready(function() {
+        $('#send_data').on('click', function(){
+          var now_time = new Date();
+          var now = now_time.getFullYear()+"-"+now_time.getMonth()+"-"+now_time.getDate()+" "+now_time.getHours()
+                    +":"+now_time.getMinutes()+":"+now_time.getSeconds();
+          var data = {
+            'names': $('#name').val(),
+            'phone': $('#phone').val(),
+            'region': $('#region').val(),
+            'contents': $('#content').val(),
+            'objects': $('#object').val(),
+            'times': now,
+            'statuss': 0
+          };
+          var url = '/send_data';
+          $.post(url, data, function(data2){
+            console.log(data2);
+          });
+          //socket.emit('send_data');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="main">
+    <header id="main">
+      <h1>{Phone System}</h1>
+      <h2>目前人數:<span id="conn_num"></span></h2>
+    </header>
+
+    <section id="box1">
+      <header>
+        <h3>{松年}</h3>
+      </header>
+      <form action="">
+        <table class="table table-condensed">
+          <tr>
+            <td>編號</td>
+            <td>姓名</td>
+            <td>地區</td>
+            <td>電話</td>
+          </tr>
+          <% datas.forEach(function(data, index){ %>
+            <tr>
+              <td><%= index+1 %></td>
+              <td><%= data.name %></td>
+              <td><%= data.region %></td>
+              <td><%= data.phone %></td>
+            </tr>
+          <%});%>
+        </table>
+      </form>
+    </section>
+
+    <section id="box2">
+      <header>
+        <h3>{工程師}</h3>
+      </header>
+      <form action="">
+        <table class="table table-condensed">
+
+        </table>
+      </form>
+    </section>
+
+    <section id="box3">
+      <header>
+        <h3>{紹成}</h3>
+      </header>
+      <form action="">
+        <table class="table table-condensed">
+
+        </table>
+      </form>
+    </section>
+
+    <section id="data_section">
+      <form action="" id="data_form">
+        <table id="data_table" class="table table-bordered">
+          <tr>
+            <td>名稱</td>
+            <td><input type="text" name="names" placeholder="名稱" id="name"></td>
+          </tr>
+          <tr>
+            <td>電話</td>
+            <td><input type="text" name="phone" placeholder="電話" id="phone"></td>
+          </tr>
+          <tr>
+            <td>單位名稱</td>
+            <td><input type="text" name="region" placeholder="單位名稱" id="region"></td>
+          </tr>
+          <tr>
+            <td>備註內容</td>
+            <td><textarea name="content" id="content" cols="30" rows="10"></textarea></td>
+          </tr>
+          <tr>
+            <td>目標</td>
+            <td>
+              <select name="object" id="object">
+                <option value="0">松年</option>
+                <option value="1">工程師</option>
+                <option value="2">紹成</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"><button type="button" class="btn" id="send_data">送出</button></td>
+          </tr>
+        </table>
+      </form>
+    </section>
+
+    <footer id="footer">Lighter copy right</footer>
+  </body>
+</html>

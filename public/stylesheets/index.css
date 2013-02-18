@@ -1,0 +1,60 @@
+#main {
+  width: 1024px;
+  margin: 0 auto; }
+  #main h1, #main h3 {
+    text-align: center; }
+
+#box1 {
+  border: 1px solid #ccc;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 300px;
+  height: auto; }
+
+#box2 {
+  border: 1px solid #ccc;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 300px;
+  height: auto; }
+
+#box3 {
+  border: 1px solid #ccc;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 300px;
+  height: auto; }
+
+#box1 {
+  float: left; }
+
+#box2 {
+  float: left;
+  margin-left: 60px; }
+
+#box3 {
+  float: right; }
+
+#data_section {
+  float: right;
+  width: 1024px;
+  height: auto;
+  margin-top: 20px; }
+  #data_section form {
+    width: 512px;
+    margin: 0 auto; }
+    #data_section form table tr:last-child td:last-child {
+      text-align: center; }
+      #data_section form table tr:last-child td:last-child button {
+        width: 480px; }
+
+#footer {
+  float: right;
+  width: 1024px;
+  text-align: center; }

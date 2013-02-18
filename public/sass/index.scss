@@ -1,0 +1,67 @@
+$radius: 5px;
+
+body {
+
+}
+
+#main {
+  //border: 1px solid #ccc;
+  width: 1024px;
+  margin: 0 auto;
+  h1, h3 {
+    text-align: center
+  }
+}
+
+@for $i from 1 through 3 {
+  #box#{$i} {
+    border: 1px solid #ccc;
+    -moz-border-radius: $radius;
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
+    margin-top: 20px;
+    width: 300px;
+    height: auto;
+  }
+}
+
+#box1 {
+  float: left;
+}
+
+#box2 {
+  float: left;
+  margin-left:60px;
+}
+
+#box3 {
+  float: right;
+}
+
+#data_section {
+  float: right;
+  //border: 1px solid #ccc;
+  width: 1024px;
+  height: auto;
+  margin-top: 20px;
+
+  form {
+    width: 512px;
+    margin: 0 auto;
+
+    table tr:last-child td:last-child {
+      text-align: center;
+
+      button {
+        width: 480px;
+      }
+    }
+  }
+}
+
+#footer {
+  float: right;
+  width: 1024px;
+  text-align: center;
+}
+
