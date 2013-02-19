@@ -50,6 +50,11 @@ socket.on('connection', function(client){
     console.log('send data');
   });
 
+  client.on('update_table', function(box, tr_index){
+    client.emit('update_client_table', box, tr_index);
+    client.broadcast.emit('update_client_table', box, tr_index);
+  });
+
   //disconnect
   client.on('disconnect', function(){
     conn_num--;

@@ -34,6 +34,9 @@ exports.send_data = function(req, res){
         +name+'", "'+phone+'", "'+region+'", "'+content+'", "'+object+'", "'+time+'", "'+statuss+'")';
   connection.query(sql, function(err, rows, fields){
     if (err) throw err;
-    console.log('This solution is:', rows);
+    // console.log('This solution is:', rows);
+
+    // if sql inert success send 'ok'
+    res.send('ok');
   });
 };

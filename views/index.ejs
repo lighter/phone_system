@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Phone System</title>
+    <style>
+    .line{
+      background: transparent url('http://davidrhysthomas.co.uk/linked/strike.png') 0 50% repeat-x;
+    }
+    </style>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -15,25 +20,63 @@
         //由Server端emit 'update_conn_number'
         $('#conn_num').html(conn_num);
       });
+
+      //update table content
+      socket.on('update_client_table', function(box, tr_index){
+        console.log(box);
+        $('section#box'+box+' table tr:eq('+tr_index+')').addClass('line');
+      });
+
+      function insert_data_to_table(name, region, phone, object){
+        var last_id = parseInt(object) + 1;
+        var last_id_text = $("section#box"+last_id+" table tr:last td:first").text();
+        $("section#box"+last_id+" table tr:last").after("<tr><td>"+(parseInt(last_id_text)+1)+"</td><td>"+name+"</td><td>"+region+"</td><td>"+phone+"</td></tr>");
+      }
+
       $(document).ready(function() {
+
+        //set all the tr's id number
+        for(var i = 1; i < 4; i++) {
+          $("section#box" + i + " table tr:gt(0)").each(function(index){
+            $(this).find("td:first").html(index+1);
+          });
+        }
+
+        //set all the tr's action
+        $('.table-condensed tr:gt(0)').on('click', function(){
+          $(this).toggleClass('line');
+          var box_id = $(this).parents('table').attr('box');
+
+          // var tr = $(this).parent().children().index($(this));
+          var tr_index = $(this).index();
+          socket.emit('update_table', box_id, tr_index);
+        });
+
+
         $('#send_data').on('click', function(){
           var now_time = new Date();
           var now = now_time.getFullYear()+"-"+now_time.getMonth()+"-"+now_time.getDate()+" "+now_time.getHours()
                     +":"+now_time.getMinutes()+":"+now_time.getSeconds();
+          var object_value  = $('#object').val();
+          var name_value    = $('#name').val();
+          var phone_value   = $('#phone').val();
+          var region_value  = $('#region').val();
+          var content_value = $('#content').val();
           var data = {
-            'names': $('#name').val(),
-            'phone': $('#phone').val(),
-            'region': $('#region').val(),
-            'contents': $('#content').val(),
-            'objects': $('#object').val(),
+            'names': name_value,
+            'phone': phone_value,
+            'region': region_value,
+            'contents': content_value,
+            'objects': object_value,
             'times': now,
             'statuss': 0
           };
           var url = '/send_data';
           $.post(url, data, function(data2){
-            console.log(data2);
+            if(data2 === 'ok') {
+              insert_data_to_table(name_value, region_value, phone_value, object_value);
+            }
           });
-          //socket.emit('send_data');
         });
       });
     </script>
@@ -50,21 +93,21 @@
         <h3>{松年}</h3>
       </header>
       <form action="">
-        <table class="table table-condensed">
+        <table class="table table-condensed" box="1">
           <tr>
             <td>編號</td>
             <td>姓名</td>
             <td>地區</td>
             <td>電話</td>
           </tr>
-          <% datas.forEach(function(data, index){ %>
+          <%datas.forEach(function(data, index){ if(data.object == 0) {%>
             <tr>
               <td><%= index+1 %></td>
               <td><%= data.name %></td>
               <td><%= data.region %></td>
               <td><%= data.phone %></td>
             </tr>
-          <%});%>
+          <%}});%>
         </table>
       </form>
     </section>
@@ -74,8 +117,21 @@
         <h3>{工程師}</h3>
       </header>
       <form action="">
-        <table class="table table-condensed">
-
+        <table class="table table-condensed" box="2">
+          <tr>
+            <td>編號</td>
+            <td>姓名</td>
+            <td>地區</td>
+            <td>電話</td>
+          </tr>
+          <%datas.forEach(function(data, index){ if(data.object == 1) {%>
+            <tr>
+              <td><%= index+1 %></td>
+              <td><%= data.name %></td>
+              <td><%= data.region %></td>
+              <td><%= data.phone %></td>
+            </tr>
+          <%}});%>
         </table>
       </form>
     </section>
@@ -85,8 +141,21 @@
         <h3>{紹成}</h3>
       </header>
       <form action="">
-        <table class="table table-condensed">
-
+        <table class="table table-condensed" box="3">
+          <tr>
+            <td>編號</td>
+            <td>姓名</td>
+            <td>地區</td>
+            <td>電話</td>
+          </tr>
+          <%datas.forEach(function(data, index){ if(data.object == 2) {%>
+            <tr>
+              <td><%= index+1 %></td>
+              <td><%= data.name %></td>
+              <td><%= data.region %></td>
+              <td><%= data.phone %></td>
+            </tr>
+          <%}});%>
         </table>
       </form>
     </section>
