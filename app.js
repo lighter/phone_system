@@ -40,20 +40,28 @@ var conn_num = 0;
 socket.on('connection', function(client){
   conn_num++;
 
-  //更新線上人數
+  //update online number
   client.emit('update_conn_number', conn_num);
 
-  //廣播所有連線的人更新線上人數
+  //broadcast update online number
   client.broadcast.emit('update_conn_number', conn_num);
   //client send the data
   client.on('send_data', function(){
     console.log('send data');
   });
 
+  //update table
   client.on('update_table', function(box, tr_index){
     client.emit('update_client_table', box, tr_index);
     client.broadcast.emit('update_client_table', box, tr_index);
   });
+
+  //update insert table content
+  client.on('insert_data_to_table', function(name_value, region_value, phone_value, object_value){
+    client.emit('insert_client_data_to_table', name_value, region_value, phone_value, object_value);
+    client.broadcast.emit('insert_client_data_to_table', name_value, region_value, phone_value, object_value);
+  });
+
 
   //disconnect
   client.on('disconnect', function(){

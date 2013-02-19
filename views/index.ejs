@@ -27,11 +27,13 @@
         $('section#box'+box+' table tr:eq('+tr_index+')').addClass('line');
       });
 
-      function insert_data_to_table(name, region, phone, object){
+      // function insert_data_to_table(name, region, phone, object){
+      socket.on('insert_client_data_to_table', function(name, region, phone, object){
         var last_id = parseInt(object) + 1;
         var last_id_text = $("section#box"+last_id+" table tr:last td:first").text();
         $("section#box"+last_id+" table tr:last").after("<tr><td>"+(parseInt(last_id_text)+1)+"</td><td>"+name+"</td><td>"+region+"</td><td>"+phone+"</td></tr>");
-      }
+      });
+      // }
 
       $(document).ready(function() {
 
@@ -74,7 +76,8 @@
           var url = '/send_data';
           $.post(url, data, function(data2){
             if(data2 === 'ok') {
-              insert_data_to_table(name_value, region_value, phone_value, object_value);
+              // insert_data_to_table(name_value, region_value, phone_value, object_value);
+              socket.emit('insert_data_to_table', name_value, region_value, phone_value, object_value);
             }
           });
         });
