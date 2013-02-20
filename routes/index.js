@@ -22,14 +22,13 @@ exports.index = function(req, res){
 };
 
 exports.send_data = function(req, res){
-  var name = req.body.names;
-  var phone = req.body.phone;
-  var region = req.body.region;
+  var name    = req.body.names;
+  var phone   = req.body.phone;
+  var region  = req.body.region;
   var content = req.body.contents;
-  var object = req.body.objects;
-  var time = req.body.times;
+  var object  = req.body.objects;
+  var time    = req.body.times;
   var statuss = req.body.statuss;
-
   var sql = 'INSERT INTO phone_log (name, phone, region, content, object, time, status) VALUES ("'
         +name+'", "'+phone+'", "'+region+'", "'+content+'", "'+object+'", "'+time+'", "'+statuss+'")';
   connection.query(sql, function(err, rows, fields){
@@ -40,3 +39,17 @@ exports.send_data = function(req, res){
     res.send('ok');
   });
 };
+
+//update status
+exports.update_data = function(req, res){
+  var data_id = req.body.data_id;
+  var status  = req.body.status;
+  if(status == '0') {
+    var sql = "UPDATE phone_log SET status = '1' WHERE id = '" + data_id + "'";
+  } else {
+    var sql = "UPDATE phone_log SET status = '0' WHERE id = '" + data_id + "'";
+  }
+  connection.query(sql, function(err, rows, fields){
+    if(err) throw err;
+  });
+}

@@ -21,19 +21,17 @@
         $('#conn_num').html(conn_num);
       });
 
-      //update table content
+      //update table content css
       socket.on('update_client_table', function(box, tr_index){
-        console.log(box);
-        $('section#box'+box+' table tr:eq('+tr_index+')').addClass('line');
+        $('section#box'+box+' table tr:eq('+tr_index+')').toggleClass('line');
       });
 
-      // function insert_data_to_table(name, region, phone, object){
+      //update table content data
       socket.on('insert_client_data_to_table', function(name, region, phone, object){
         var last_id = parseInt(object) + 1;
         var last_id_text = $("section#box"+last_id+" table tr:last td:first").text();
         $("section#box"+last_id+" table tr:last").after("<tr><td>"+(parseInt(last_id_text)+1)+"</td><td>"+name+"</td><td>"+region+"</td><td>"+phone+"</td></tr>");
       });
-      // }
 
       $(document).ready(function() {
 
@@ -41,20 +39,25 @@
         for(var i = 1; i < 4; i++) {
           $("section#box" + i + " table tr:gt(0)").each(function(index){
             $(this).find("td:first").html(index+1);
+            if(parseInt($(this).attr('status')) === 1) {
+              $(this).addClass('line');
+            }
           });
         }
 
         //set all the tr's action
         $('.table-condensed tr:gt(0)').on('click', function(){
-          $(this).toggleClass('line');
-          var box_id = $(this).parents('table').attr('box');
-
-          // var tr = $(this).parent().children().index($(this));
+          var box_id   = $(this).parents('table').attr('box');
           var tr_index = $(this).index();
+          var data  = {
+            'data_id' : $(this).attr('data_id'),
+            'status' : $(this).attr('status')
+          };
+          $.post('/update_data', data, function(data){
+
+          });
           socket.emit('update_table', box_id, tr_index);
         });
-
-
         $('#send_data').on('click', function(){
           var now_time = new Date();
           var now = now_time.getFullYear()+"-"+now_time.getMonth()+"-"+now_time.getDate()+" "+now_time.getHours()
@@ -104,8 +107,8 @@
             <td>電話</td>
           </tr>
           <%datas.forEach(function(data, index){ if(data.object == 0) {%>
-            <tr>
-              <td><%= index+1 %></td>
+            <tr data_id="<%= data.id %>" status="<%= data.status%>">
+              <td></td>
               <td><%= data.name %></td>
               <td><%= data.region %></td>
               <td><%= data.phone %></td>
@@ -128,8 +131,8 @@
             <td>電話</td>
           </tr>
           <%datas.forEach(function(data, index){ if(data.object == 1) {%>
-            <tr>
-              <td><%= index+1 %></td>
+            <tr data_id="<%= data.id %>" status="<%= data.status%>">
+              <td></td>
               <td><%= data.name %></td>
               <td><%= data.region %></td>
               <td><%= data.phone %></td>
@@ -152,8 +155,8 @@
             <td>電話</td>
           </tr>
           <%datas.forEach(function(data, index){ if(data.object == 2) {%>
-            <tr>
-              <td><%= index+1 %></td>
+            <tr data_id="<%= data.id %>" status="<%= data.status%>">
+              <td></td>
               <td><%= data.name %></td>
               <td><%= data.region %></td>
               <td><%= data.phone %></td>

@@ -29,6 +29,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.post('/send_data', routes.send_data);
+app.post('/update_data', routes.update_data);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
