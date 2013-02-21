@@ -30,10 +30,18 @@
       socket.on('insert_client_data_to_table', function(name, region, phone, object){
         var last_id = parseInt(object) + 1;
         var last_id_text = $("section#box"+last_id+" table tr:last td:first").text();
+        if(last_id_text === "編號") {
+          last_id_text = 0;
+        }
         $("section#box"+last_id+" table tr:last").after("<tr><td>"+(parseInt(last_id_text)+1)+"</td><td>"+name+"</td><td>"+region+"</td><td>"+phone+"</td></tr>");
       });
 
       $(document).ready(function() {
+        var now   = new Date();
+        var year  = now.getFullYear();
+        var month = now.getMonth()+1;
+        var date  = now.getDate();
+        $('#day').html("今天是:"+year+"/"+month+"/"+date);
 
         //set all the tr's id number
         for(var i = 1; i < 4; i++) {
@@ -60,7 +68,7 @@
         });
         $('#send_data').on('click', function(){
           var now_time = new Date();
-          var now = now_time.getFullYear()+"-"+now_time.getMonth()+"-"+now_time.getDate()+" "+now_time.getHours()
+          var now = now_time.getFullYear()+"-"+(now_time.getMonth()+1)+"-"+now_time.getDate()+" "+now_time.getHours()
                     +":"+now_time.getMinutes()+":"+now_time.getSeconds();
           var object_value  = $('#object').val();
           var name_value    = $('#name').val();
@@ -91,6 +99,7 @@
     <div id="main">
     <header id="main">
       <h1>{Phone System}</h1>
+      <h1 id="day"></h1>
       <h2>目前人數:<span id="conn_num"></span></h2>
     </header>
 

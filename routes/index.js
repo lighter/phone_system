@@ -11,10 +11,16 @@ var connection = mysql.createConnection({
   database: 'phone_system'
 });
 
+var now   = new Date();
+var year  = now.getFullYear();
+var month = now.getMonth()+1;
+var date  = now.getDate();
+var today = year+"-"+month+"-"+date;
+
 exports.index = function(req, res){
 //  res.render('index', { title: 'Express' });
 
-  var sql = 'SELECT * FROM phone_log';
+  var sql = 'SELECT * FROM phone_log WHERE CAST(time AS DATE) = "'+today+'"';
   connection.query(sql, function(err, rows, fields){
     if (err) throw err;
     res.render('index', {datas: rows});
