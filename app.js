@@ -69,5 +69,3 @@ socket.on('connection', function(client){
     conn_num--;
   });
 });
-
-

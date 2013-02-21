@@ -30,12 +30,13 @@
       socket.on('insert_client_data_to_table', function(name, region, phone, object){
         var last_id = parseInt(object) + 1;
         var last_id_text = $("section#box"+last_id+" table tr:last td:first").text();
+        var count = $('section#box'+last_id+" .count").text();
+        $('section#box'+last_id+" .count").text(parseInt(count)+1);
         if(last_id_text === "編號") {
           last_id_text = 0;
         }
         $("section#box"+last_id+" table tr:last").after("<tr><td>"+(parseInt(last_id_text)+1)+"</td><td>"+name+"</td><td>"+region+"</td><td>"+phone+"</td></tr>");
       });
-
       $(document).ready(function() {
         var now   = new Date();
         var year  = now.getFullYear();
@@ -54,7 +55,7 @@
         }
 
         //set all the tr's action
-        $('.table-condensed tr:gt(0)').on('click', function(){
+        $('.table-condensed').on('click', 'tr:gt(0)' ,function(){
           var box_id   = $(this).parents('table').attr('box');
           var tr_index = $(this).index();
           var data  = {
@@ -62,9 +63,10 @@
             'status' : $(this).attr('status')
           };
           $.post('/update_data', data, function(data){
-
+            if(data == 'ok') {
+              socket.emit('update_table', box_id, tr_index);
+            }
           });
-          socket.emit('update_table', box_id, tr_index);
         });
         $('#send_data').on('click', function(){
           var now_time = new Date();
@@ -105,7 +107,7 @@
 
     <section id="box1">
       <header>
-        <h3>{松年}</h3>
+        <h3>{松年:<span class="count"><%= obj0 %></span>}</h3>
       </header>
       <form action="">
         <table class="table table-condensed" box="1">
@@ -129,7 +131,7 @@
 
     <section id="box2">
       <header>
-        <h3>{工程師}</h3>
+        <h3>{工程師:<span class="count"><%= obj1 %></span>}</h3>
       </header>
       <form action="">
         <table class="table table-condensed" box="2">
@@ -153,7 +155,7 @@
 
     <section id="box3">
       <header>
-        <h3>{紹成}</h3>
+        <h3>{紹成:<span class="count"><%= obj2 %></span>}</h3>
       </header>
       <form action="">
         <table class="table table-condensed" box="3">
