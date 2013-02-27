@@ -44,6 +44,12 @@
         var date  = now.getDate();
         $('#day').html("今天是:"+year+"/"+month+"/"+date);
 
+        //plus click
+        $('a.plus').on('click', function(e){
+          e.preventDefault();
+          var data_box = $(this).attr('data-box');
+        });
+
         //set all the tr's id number
         for(var i = 1; i < 4; i++) {
           $("section#box" + i + " table tr:gt(0)").each(function(index){
@@ -107,7 +113,7 @@
 
     <section id="box1">
       <header>
-        <h3>{松年:<span class="count"><%= obj0 %></span>}</h3>
+        <h3>{松年:<span class="count"><%= obj0 %></span>}<a href="#" data-box="1" class="plus"><img src="../images/plus.png"/></a></h3>
       </header>
       <form action="">
         <table class="table table-condensed" box="1">
@@ -131,7 +137,7 @@
 
     <section id="box2">
       <header>
-        <h3>{工程師:<span class="count"><%= obj1 %></span>}</h3>
+        <h3>{工程師:<span class="count"><%= obj1 %></span>}<a href="#" data-box="2" class="plus"><img src="../images/plus.png"/></a></h3>
       </header>
       <form action="">
         <table class="table table-condensed" box="2">
@@ -155,7 +161,7 @@
 
     <section id="box3">
       <header>
-        <h3>{紹成:<span class="count"><%= obj2 %></span>}</h3>
+        <h3>{紹成:<span class="count"><%= obj2 %></span>}<a href="#" data-box="3" class="plus"><img src="../images/plus.png"/><a/></h3>
       </header>
       <form action="">
         <table class="table table-condensed" box="3">

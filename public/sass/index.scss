@@ -38,6 +38,19 @@ body {
   float: right;
 }
 
+.plus {
+  margin-left: 5px;
+  img {
+    width: percentage(16px/300px);
+  }
+  img:hover {
+    width: percentage((16px/300px)*1.5);
+  }
+  img:active {
+    width: percentage((16px/300px));
+  }
+}
+
 #data_section {
   float: right;
   //border: 1px solid #ccc;
@@ -64,4 +77,3 @@ body {
   width: 1024px;
   text-align: center;
 }
-

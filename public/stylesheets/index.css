@@ -41,6 +41,15 @@
 #box3 {
   float: right; }
 
+.plus {
+  margin-left: 5px; }
+  .plus img {
+    width: 5.333%; }
+  .plus img:hover {
+    width: 8%; }
+  .plus img:active {
+    width: 5.333%; }
+
 #data_section {
   float: right;
   width: 1024px;
